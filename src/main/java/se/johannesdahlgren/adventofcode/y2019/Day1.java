@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class Day1 {
 
-  public int calculateRequiredFuelForMass(int mass) {
+  private int calculateRequiredFuelForMass(int mass) {
     return (int) (Math.floor(mass / 3.0f) - 2);
   }
 
-  public int calculateRequiredFuelForMass(List<Integer> masses) {
+  private int calculateRequiredFuelForMass(List<Integer> masses) {
     return masses.stream()
-        .map(this::calculateRequiredFuelForMassOfModuleAndItsFuel)
+        .map(this::calculateRequiredFuelForMass)
         .mapToInt(value -> value).sum();
   }
 
@@ -25,7 +25,7 @@ public class Day1 {
     return calculateRequiredFuelForMass(masses);
   }
 
-  public int calculateRequiredFuelForMassOfModuleAndItsFuel(int moduleMass) {
+  private int calculateRequiredFuelForMassOfModuleAndItsFuel(int moduleMass) {
     int requiredFuel = calculateRequiredFuelForMass(moduleMass);
     if (requiredFuel <= 0) {
       return 0;
