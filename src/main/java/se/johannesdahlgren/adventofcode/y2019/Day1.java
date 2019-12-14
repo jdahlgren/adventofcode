@@ -20,7 +20,7 @@ public class Day1 {
         .mapToInt(value -> value).sum();
   }
 
-  public int calculateRequiredFuelForMass(String filePath) throws IOException, URISyntaxException {
+  public int calculateRequiredFuelForMass(String filePath) {
     List<Integer> masses = getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMass(masses);
   }
@@ -39,20 +39,24 @@ public class Day1 {
         .mapToInt(value -> value).sum();
   }
 
-  public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) throws URISyntaxException, IOException {
+  public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) {
     List<Integer> masses = getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMassOfModuleAndItsFuel(masses);
   }
 
-  private List<Integer> getModuleMassFromFile(String filePath) throws IOException, URISyntaxException {
+  private List<Integer> getModuleMassFromFile(String filePath) {
     URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
     if (fileUrl == null) {
       return List.of();
     }
 
-    return Files.readAllLines(Paths.get(fileUrl.toURI()))
-        .stream()
-        .map(Integer::parseInt)
-        .collect(Collectors.toList());
+    try {
+      return Files.readAllLines(Paths.get(fileUrl.toURI()))
+          .stream()
+          .map(Integer::parseInt)
+          .collect(Collectors.toList());
+    } catch (IOException | URISyntaxException e) {
+      return List.of();
+    }
   }
 }
