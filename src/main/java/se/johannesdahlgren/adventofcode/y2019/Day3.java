@@ -95,6 +95,6 @@ public class Day3 {
   }
 
   private int calculateManhattanDistance(Point point) {
-    return point.getX() + point.getY();
+    return Math.abs(point.getX()) + Math.abs(point.getY());
   }
 }
