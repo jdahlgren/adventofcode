@@ -72,11 +72,11 @@ public class Day3 {
   private List<Point> getIntersectingPoints() {
     List<Point> intersectingPoints = new ArrayList<>();
 
-    for (Point point : lines.get(0).getLine()) {
-      for (Point point2 : lines.get(1).getLine()) {
-        if (point.equals(point2) && !point.equals(new Point(0, 0))) {
-          intersectingPoints.add(point);
-        }
+    List<Point> firstLine = lines.get(0).getLine();
+    List<Point> secondLine = lines.get(1).getLine();
+    for (Point point : secondLine) {
+      if (firstLine.contains(point) && !point.equals(new Point(0, 0))) {
+        intersectingPoints.add(point);
       }
     }
 

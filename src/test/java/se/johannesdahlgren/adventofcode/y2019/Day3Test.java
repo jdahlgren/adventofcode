@@ -27,4 +27,11 @@ class Day3Test {
     int distance = day3.findDistanceToClosestIntersection();
     assertThat(distance, is(135));
   }
+
+  @Test
+  void findDistanceToClosestIntersection() {
+    Day3 day3 = new Day3("day3/day3.txt");
+    int distance = day3.findDistanceToClosestIntersection();
+    assertThat(distance, is(1064));
+  }
 }
