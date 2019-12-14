@@ -17,4 +17,11 @@ public class Point {
   public int getY() {
     return y;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof Point &&
+        this.x == ((Point) obj).x &&
+        this.y == ((Point) obj).y;
+  }
 }

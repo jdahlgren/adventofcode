@@ -23,7 +23,8 @@ public class Day3 {
 
   public int findDistanceToClosestIntersection() {
     convertPathCommandsToLines();
-    return 0;
+    List<Point> intersectingPoints = getIntersectingPoints();
+    return getSmallestManhattanDistance(intersectingPoints);
   }
 
   private void convertPathCommandsToLines() {
@@ -66,5 +67,34 @@ public class Day3 {
         return new Point(lastPoint.getX() - 1, lastPoint.getY());
     }
     throw new RuntimeException("Unknown direction");
+  }
+
+  private List<Point> getIntersectingPoints() {
+    List<Point> intersectingPoints = new ArrayList<>();
+
+    for (Point point : lines.get(0).getLine()) {
+      for (Point point2 : lines.get(1).getLine()) {
+        if (point.equals(point2) && !point.equals(new Point(0, 0))) {
+          intersectingPoints.add(point);
+        }
+      }
+    }
+
+    return intersectingPoints;
+  }
+
+  private int getSmallestManhattanDistance(List<Point> intersectingPoints) {
+    int minDistance = 99999999;
+    for (Point point : intersectingPoints) {
+      int distance = calculateManhattanDistance(point);
+      if (minDistance > distance) {
+        minDistance = distance;
+      }
+    }
+    return minDistance;
+  }
+
+  private int calculateManhattanDistance(Point point) {
+    return point.getX() + point.getY();
   }
 }
