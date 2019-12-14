@@ -1,39 +1,18 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
+import se.johannesdahlgren.adventofcode.util.FileToListUtl;
 
 public class Day1 {
 
   public int calculateRequiredFuelForMass(String filePath) {
-    List<Integer> moduleMasses = getModuleMassFromFile(filePath);
+    List<Integer> moduleMasses = FileToListUtl.getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMass(moduleMasses);
   }
 
   public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) {
-    List<Integer> moduleMasses = getModuleMassFromFile(filePath);
+    List<Integer> moduleMasses = FileToListUtl.getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMassOfModuleAndItsFuel(moduleMasses);
-  }
-
-  private List<Integer> getModuleMassFromFile(String filePath) {
-    URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
-    if (fileUrl == null) {
-      return List.of();
-    }
-
-    try {
-      return Files.readAllLines(Paths.get(fileUrl.toURI()))
-          .stream()
-          .map(Integer::parseInt)
-          .collect(Collectors.toList());
-    } catch (IOException | URISyntaxException e) {
-      return List.of();
-    }
   }
 
   private int calculateRequiredFuelForMass(List<Integer> masses) {

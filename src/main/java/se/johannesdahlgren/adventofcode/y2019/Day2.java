@@ -1,12 +1,7 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
+import se.johannesdahlgren.adventofcode.util.FileToListUtl;
 
 public class Day2 {
 
@@ -18,7 +13,7 @@ public class Day2 {
   private int currentIndex;
 
   public Day2(String filePath) {
-    this.intCode = getIntCode(filePath);
+    this.intCode = FileToListUtl.getIntCode(filePath);
     this.currentIndex = 0;
   }
 
@@ -75,21 +70,5 @@ public class Day2 {
 
   private int getSecondValuePos() {
     return intCode.get(currentIndex + 2);
-  }
-
-  private List<Integer> getIntCode(String filePath) {
-    URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
-    if (fileUrl == null) {
-      return List.of();
-    }
-
-    try {
-      String[] intCodeAsString = Files.readString(Paths.get(fileUrl.toURI())).split(",");
-      return List.of(intCodeAsString).stream()
-          .map(Integer::valueOf)
-          .collect(Collectors.toList());
-    } catch (IOException | URISyntaxException e) {
-      return List.of();
-    }
   }
 }
