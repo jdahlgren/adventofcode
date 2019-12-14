@@ -1,5 +1,6 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
+import java.util.ArrayList;
 import java.util.List;
 import se.johannesdahlgren.adventofcode.util.FileToListUtil;
 
@@ -12,11 +13,13 @@ public class Day2 {
   private static final int NOUN_POSITION = 1;
   private static final int VERB_POSITION = 2;
 
+  private final List<Integer> baseIntCode;
   private List<Integer> intCode;
   private int currentIndex;
 
   public Day2(String filePath) {
     this.intCode = FileToListUtil.getIntCode(filePath);
+    baseIntCode = List.copyOf(intCode);
     this.currentIndex = 0;
   }
 
@@ -38,7 +41,21 @@ public class Day2 {
     return intCode;
   }
 
+  public List<Integer> findNounAndVerb(int result) {
+    for (int noun = 0; noun < 100; noun++) {
+      for (int verb = 0; verb < 100; verb++) {
+        Integer code = calculateIntCode(noun, verb).get(0);
+        if (code == result) {
+          return List.of(noun, verb);
+        }
+      }
+    }
+    throw new RuntimeException("No noun/verb combo match result: " + result);
+  }
+
   private void initMemory(int nounValue, int verbValue) {
+    currentIndex = 0;
+    intCode = new ArrayList<>(baseIntCode);
     intCode.set(NOUN_POSITION, nounValue);
     intCode.set(VERB_POSITION, verbValue);
   }
