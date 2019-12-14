@@ -13,14 +13,18 @@ import java.util.stream.Collectors;
 public class FileToListUtil {
 
   public static List<Integer> getIntCode(String filePath) {
-    return getIntListFromFile(filePath, FileToListUtil::getIntCodeFromFile);
+    return getListFromFile(filePath, FileToListUtil::getIntCodeFromFile);
   }
 
   public static List<Integer> getModuleMassFromFile(String filePath) {
-    return getIntListFromFile(filePath, FileToListUtil::getModuleMassFromFile);
+    return getListFromFile(filePath, FileToListUtil::getModuleMassFromFile);
   }
 
-  private static List<Integer> getIntListFromFile(String filePath, CheckedFunction<URI, List<Integer>> function) {
+  public static List<String> getLinePathFromFile(String filePath) {
+    return getListFromFile(filePath, FileToListUtil::getLinePathFromFile);
+  }
+
+  private static <T> List<T> getListFromFile(String filePath, CheckedFunction<URI, List<T>> function) {
     try {
       URL fileUrl = FileToListUtil.class.getClassLoader().getResource(filePath);
       if (fileUrl == null) {
@@ -46,5 +50,9 @@ public class FileToListUtil {
         .stream()
         .map(Integer::parseInt)
         .collect(Collectors.toList());
+  }
+
+  private static List<String> getLinePathFromFile(URI uri) throws IOException {
+    return Files.readAllLines(Paths.get(uri));
   }
 }
