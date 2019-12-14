@@ -1,6 +1,7 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import se.johannesdahlgren.adventofcode.util.FileToListUtil;
 import se.johannesdahlgren.adventofcode.util.Line;
@@ -70,17 +71,13 @@ public class Day3 {
   }
 
   private List<Point> getIntersectingPoints() {
-    List<Point> intersectingPoints = new ArrayList<>();
+    Point ignore = new Point(0, 0);
+    HashSet<Point> firstLineWithoutDuplicates = new HashSet<>(lines.get(0).getLine());
+    HashSet<Point> secondLineWithoutDuplicates = new HashSet<>(lines.get(1).getLine());
+    firstLineWithoutDuplicates.retainAll(secondLineWithoutDuplicates);
+    firstLineWithoutDuplicates.remove(ignore);
 
-    List<Point> firstLine = lines.get(0).getLine();
-    List<Point> secondLine = lines.get(1).getLine();
-    for (Point point : secondLine) {
-      if (firstLine.contains(point) && !point.equals(new Point(0, 0))) {
-        intersectingPoints.add(point);
-      }
-    }
-
-    return intersectingPoints;
+    return new ArrayList<>(firstLineWithoutDuplicates);
   }
 
   private int getSmallestManhattanDistance(List<Point> intersectingPoints) {
