@@ -19,35 +19,35 @@ class Day1Test {
   }
 
   @Test
-  void massOfModule1() {
+  void requiredFuelForModule1() {
     int moduleMass = 12;
     int requiredFuel = day1.calculateRequiredFuelForMass(moduleMass);
     assertThat(requiredFuel, is(2));
   }
 
   @Test
-  void massOfModule2() {
+  void requiredFuelForModule2() {
     int moduleMass = 14;
     int requiredFuel = day1.calculateRequiredFuelForMass(moduleMass);
     assertThat(requiredFuel, is(2));
   }
 
   @Test
-  void massOfModule3() {
+  void requiredFuelForModule3() {
     int moduleMass = 1969;
     int requiredFuel = day1.calculateRequiredFuelForMass(moduleMass);
     assertThat(requiredFuel, is(654));
   }
 
   @Test
-  void massOfModule4() {
+  void requiredFuelForModule4() {
     int moduleMass = 100756;
     int requiredFuel = day1.calculateRequiredFuelForMass(moduleMass);
     assertThat(requiredFuel, is(33583));
   }
 
   @Test
-  void massOfAllModules() {
+  void requiredFuelForAllModules() {
     int module1Mass = 12;
     int module2Mass = 14;
     int module3Mass = 1969;
@@ -59,14 +59,14 @@ class Day1Test {
   }
 
   @Test
-  void massOfAllModulesWithExampleInput() throws IOException, URISyntaxException {
+  void requiredFuelForAllModulesWithExampleInput() throws IOException, URISyntaxException {
     String filePath = "day1_examples.txt";
     int requiredFuel = day1.calculateRequiredFuelForMass(filePath);
     assertThat(requiredFuel, is(2 + 2 + 654 + 33583));
   }
 
   @Test
-  void massOfAllModulesWithRealInput() throws IOException, URISyntaxException {
+  void requiredFuelForAllModulesWithRealInput() throws IOException, URISyntaxException {
     String filePath = "day1.txt";
     int requiredFuel = day1.calculateRequiredFuelForMass(filePath);
     assertThat(requiredFuel, is(3342946));
