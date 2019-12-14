@@ -15,23 +15,44 @@ public class Day1 {
   }
 
   public int calculateRequiredFuelForMass(List<Integer> masses) {
-    int requiredFuel = 0;
-    for (int mass : masses) {
-      requiredFuel += calculateRequiredFuelForMass(mass);
-    }
-    return requiredFuel;
+    return masses.stream()
+        .map(this::calculateRequiredFuelForMassOfModuleAndItsFuel)
+        .mapToInt(value -> value).sum();
   }
 
   public int calculateRequiredFuelForMass(String filePath) throws IOException, URISyntaxException {
-    URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
-    if (fileUrl == null) {
+    List<Integer> masses = getModuleMassFromFile(filePath);
+    return calculateRequiredFuelForMass(masses);
+  }
+
+  public int calculateRequiredFuelForMassOfModuleAndItsFuel(int moduleMass) {
+    int requiredFuel = calculateRequiredFuelForMass(moduleMass);
+    if (requiredFuel <= 0) {
       return 0;
     }
+    return requiredFuel + calculateRequiredFuelForMassOfModuleAndItsFuel(requiredFuel);
+  }
 
-    List<Integer> masses = Files.readAllLines(Paths.get(fileUrl.toURI()))
+  private int calculateRequiredFuelForMassOfModuleAndItsFuel(List<Integer> masses) {
+    return masses.stream()
+        .map(this::calculateRequiredFuelForMassOfModuleAndItsFuel)
+        .mapToInt(value -> value).sum();
+  }
+
+  public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) throws URISyntaxException, IOException {
+    List<Integer> masses = getModuleMassFromFile(filePath);
+    return calculateRequiredFuelForMassOfModuleAndItsFuel(masses);
+  }
+
+  private List<Integer> getModuleMassFromFile(String filePath) throws IOException, URISyntaxException {
+    URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
+    if (fileUrl == null) {
+      return List.of();
+    }
+
+    return Files.readAllLines(Paths.get(fileUrl.toURI()))
         .stream()
         .map(Integer::parseInt)
         .collect(Collectors.toList());
-    return calculateRequiredFuelForMass(masses);
   }
 }
