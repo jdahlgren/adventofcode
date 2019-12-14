@@ -1,7 +1,7 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
 import java.util.List;
-import se.johannesdahlgren.adventofcode.util.FileToListUtl;
+import se.johannesdahlgren.adventofcode.util.FileToListUtil;
 
 public class Day2 {
 
@@ -13,7 +13,7 @@ public class Day2 {
   private int currentIndex;
 
   public Day2(String filePath) {
-    this.intCode = FileToListUtl.getIntCode(filePath);
+    this.intCode = FileToListUtil.getIntCode(filePath);
     this.currentIndex = 0;
   }
 

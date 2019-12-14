@@ -10,19 +10,19 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileToListUtl {
+public class FileToListUtil {
 
   public static List<Integer> getIntCode(String filePath) {
-    return getIntListFromFile(filePath, FileToListUtl::getIntCodeFromFile);
+    return getIntListFromFile(filePath, FileToListUtil::getIntCodeFromFile);
   }
 
   public static List<Integer> getModuleMassFromFile(String filePath) {
-    return getIntListFromFile(filePath, FileToListUtl::getModuleMassFromFile);
+    return getIntListFromFile(filePath, FileToListUtil::getModuleMassFromFile);
   }
 
   private static List<Integer> getIntListFromFile(String filePath, CheckedFunction<URI, List<Integer>> function) {
     try {
-      URL fileUrl = FileToListUtl.class.getClassLoader().getResource(filePath);
+      URL fileUrl = FileToListUtil.class.getClassLoader().getResource(filePath);
       if (fileUrl == null) {
         throw new RuntimeException("Could not find file: " + filePath);
       }

@@ -1,17 +1,17 @@
 package se.johannesdahlgren.adventofcode.y2019;
 
 import java.util.List;
-import se.johannesdahlgren.adventofcode.util.FileToListUtl;
+import se.johannesdahlgren.adventofcode.util.FileToListUtil;
 
 public class Day1 {
 
   public int calculateRequiredFuelForMass(String filePath) {
-    List<Integer> moduleMasses = FileToListUtl.getModuleMassFromFile(filePath);
+    List<Integer> moduleMasses = FileToListUtil.getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMass(moduleMasses);
   }
 
   public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) {
-    List<Integer> moduleMasses = FileToListUtl.getModuleMassFromFile(filePath);
+    List<Integer> moduleMasses = FileToListUtil.getModuleMassFromFile(filePath);
     return calculateRequiredFuelForMassOfModuleAndItsFuel(moduleMasses);
   }
 
