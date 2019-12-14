@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 public class Day1 {
 
   public int calculateRequiredFuelForMass(String filePath) {
-    List<Integer> masses = getModuleMassFromFile(filePath);
-    return calculateRequiredFuelForMass(masses);
+    List<Integer> moduleMasses = getModuleMassFromFile(filePath);
+    return calculateRequiredFuelForMass(moduleMasses);
   }
 
   public int calculateRequiredFuelForMassOfModuleAndItsFuel(String filePath) {
-    List<Integer> masses = getModuleMassFromFile(filePath);
-    return calculateRequiredFuelForMassOfModuleAndItsFuel(masses);
+    List<Integer> moduleMasses = getModuleMassFromFile(filePath);
+    return calculateRequiredFuelForMassOfModuleAndItsFuel(moduleMasses);
   }
 
   private List<Integer> getModuleMassFromFile(String filePath) {
