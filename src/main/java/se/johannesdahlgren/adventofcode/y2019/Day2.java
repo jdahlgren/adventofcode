@@ -9,12 +9,20 @@ public class Day2 {
   private static final int OP_CODE_MULTIPLY = 2;
   private static final int OP_CODE_HALT = 99;
 
+  private static final int NOUN_POSITION = 1;
+  private static final int VERB_POSITION = 2;
+
   private List<Integer> intCode;
   private int currentIndex;
 
   public Day2(String filePath) {
     this.intCode = FileToListUtil.getIntCode(filePath);
     this.currentIndex = 0;
+  }
+
+  public List<Integer> calculateIntCode(int nounValue, int verbValue) {
+    initMemory(nounValue, verbValue);
+    return calculateIntCode();
   }
 
   public List<Integer> calculateIntCode() {
@@ -28,6 +36,11 @@ public class Day2 {
     }
 
     return intCode;
+  }
+
+  private void initMemory(int nounValue, int verbValue) {
+    intCode.set(NOUN_POSITION, nounValue);
+    intCode.set(VERB_POSITION, verbValue);
   }
 
   private int getNextOpCode() {
