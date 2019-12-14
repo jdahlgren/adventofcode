@@ -10,28 +10,28 @@ import java.util.stream.Collectors;
 
 public class Day1 {
 
-  public int calculateRequiredFuelForModuleMass(int moduleMass) {
-    return (int) (Math.floor(moduleMass / 3.0f) - 2);
+  public int calculateRequiredFuelForMass(int mass) {
+    return (int) (Math.floor(mass / 3.0f) - 2);
   }
 
-  public int calculateRequiredFuelForModuleMass(List<Integer> moduleMass) {
+  public int calculateRequiredFuelForMass(List<Integer> masses) {
     int requiredFuel = 0;
-    for (int mass : moduleMass) {
-      requiredFuel += calculateRequiredFuelForModuleMass(mass);
+    for (int mass : masses) {
+      requiredFuel += calculateRequiredFuelForMass(mass);
     }
     return requiredFuel;
   }
 
-  public int calculateRequiredFuelForModuleMass(String filePath) throws IOException, URISyntaxException {
+  public int calculateRequiredFuelForMass(String filePath) throws IOException, URISyntaxException {
     URL fileUrl = this.getClass().getClassLoader().getResource(filePath);
     if (fileUrl == null) {
       return 0;
     }
 
-    List<Integer> massForAllModules = Files.readAllLines(Paths.get(fileUrl.toURI()))
+    List<Integer> masses = Files.readAllLines(Paths.get(fileUrl.toURI()))
         .stream()
         .map(Integer::parseInt)
         .collect(Collectors.toList());
-    return calculateRequiredFuelForModuleMass(massForAllModules);
+    return calculateRequiredFuelForMass(masses);
   }
 }
