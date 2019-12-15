@@ -34,4 +34,25 @@ class Day3Test {
     int distance = day3.findDistanceToClosestIntersection();
     assertThat(distance, is(1064));
   }
+
+  @Test
+  void findShortestRouteToIntersectionExample1() {
+    Day3 day3 = new Day3("day3/day3_example4.txt");
+    int distance = day3.findShortestRouteToIntersection();
+    assertThat(distance, is(610));
+  }
+
+  @Test
+  void findShortestRouteToIntersectionExample2() {
+    Day3 day3 = new Day3("day3/day3_example5.txt");
+    int distance = day3.findShortestRouteToIntersection();
+    assertThat(distance, is(410));
+  }
+
+  @Test
+  void findShortestRouteToIntersection() {
+    Day3 day3 = new Day3("day3/day3.txt");
+    int distance = day3.findShortestRouteToIntersection();
+    assertThat(distance, is(25676));
+  }
 }

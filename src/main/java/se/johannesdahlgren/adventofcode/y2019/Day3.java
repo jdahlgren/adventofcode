@@ -22,6 +22,12 @@ public class Day3 {
     lines = new ArrayList<>();
   }
 
+  public int findShortestRouteToIntersection() {
+    convertPathCommandsToLines();
+    List<Point> intersectingPoints = getIntersectingPoints();
+    return calculateLeastStepsToIntersection(intersectingPoints);
+  }
+
   public int findDistanceToClosestIntersection() {
     convertPathCommandsToLines();
     List<Point> intersectingPoints = getIntersectingPoints();
@@ -78,6 +84,23 @@ public class Day3 {
     firstLineWithoutDuplicates.remove(ignore);
 
     return new ArrayList<>(firstLineWithoutDuplicates);
+  }
+
+  private int calculateLeastStepsToIntersection(List<Point> intersectingPoints) {
+    int minSteps = Integer.MAX_VALUE;
+    for (Point intersectingPoint : intersectingPoints) {
+      int stepsToIntersection = calculateLeastStepsToIntersection(intersectingPoint);
+      if (minSteps > stepsToIntersection) {
+        minSteps = stepsToIntersection;
+      }
+    }
+    return minSteps;
+  }
+
+  private int calculateLeastStepsToIntersection(Point point) {
+    List<Point> firstLine = lines.get(0).getLine();
+    List<Point> secondLIne = lines.get(1).getLine();
+    return firstLine.indexOf(point) + secondLIne.indexOf(point);
   }
 
   private int getSmallestManhattanDistance(List<Point> intersectingPoints) {
