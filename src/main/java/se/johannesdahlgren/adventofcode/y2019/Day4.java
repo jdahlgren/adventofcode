@@ -18,6 +18,7 @@ public class Day4 {
 
   private List<Integer> getAllValidPasswords() {
     return IntStream.range(min + 1, max).boxed()
+        .filter(i -> String.valueOf(i).length() == 6)
         .filter(IntUtil::containsAdjacentDigits)
         .filter(IntUtil::digitsNeverDecreases)
         .collect(Collectors.toList());

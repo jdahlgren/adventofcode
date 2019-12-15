@@ -39,6 +39,18 @@ class Day4Test {
   }
 
   @Test
+  void noPasswordsWhenRangeStartsLongerThan6() {
+    List<Integer> passwords = new Day4(1111111, 1111113).getPasswords();
+    assertThat(passwords, is(empty()));
+  }
+
+  @Test
+  void noPasswordsWhenRangeEndsShorterThan6() {
+    List<Integer> passwords = new Day4(111, 113).getPasswords();
+    assertThat(passwords, is(empty()));
+  }
+
+  @Test
   void withinRange() {
     List<Integer> passwords = day4.getPasswords();
     for (Integer password : passwords) {
