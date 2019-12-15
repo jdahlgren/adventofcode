@@ -69,4 +69,25 @@ class Day4Test {
     assertThat(passwords.size(), is(1019));
   }
 
+  @Test
+  void example1() {
+    int password = 111111;
+    assertThat(password, containsAtLeastTwoAdjacentDigits());
+    assertThat(password, digitsNeverDecreases());
+  }
+
+  @Test
+  void example2() {
+    int password = 223450;
+    assertThat(password, containsAtLeastTwoAdjacentDigits());
+    assertThat(password, is(not(digitsNeverDecreases())));
+  }
+
+  @Test
+  void example3() {
+    int password = 123789;
+    assertThat(password, is(not(containsAtLeastTwoAdjacentDigits())));
+    assertThat(password, digitsNeverDecreases());
+  }
+
 }
