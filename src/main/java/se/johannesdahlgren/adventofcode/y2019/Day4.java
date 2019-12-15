@@ -13,10 +13,6 @@ public class Day4 {
   private final int max;
 
   public List<Integer> getPasswords() {
-    return getAllValidPasswords();
-  }
-
-  private List<Integer> getAllValidPasswords() {
     return IntStream.range(min + 1, max).boxed()
         .filter(i -> String.valueOf(i).length() == 6)
         .filter(IntUtil::containsAdjacentDigits)
