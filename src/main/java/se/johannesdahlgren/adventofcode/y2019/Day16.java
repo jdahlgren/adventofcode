@@ -10,7 +10,7 @@ public class Day16 {
 
   public String flawedFrequencyTransmission(String input, int phases) {
     if (phases == 0) {
-      return input;
+      return input.substring(0, 8);
     }
     List<Integer> inputList = input.chars().boxed().map(Character::getNumericValue).collect(Collectors.toList());
 
