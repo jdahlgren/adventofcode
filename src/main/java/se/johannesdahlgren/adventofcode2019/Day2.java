@@ -1,8 +1,8 @@
-package se.johannesdahlgren.adventofcode;
+package se.johannesdahlgren.adventofcode2019;
 
 import java.util.ArrayList;
 import java.util.List;
-import se.johannesdahlgren.adventofcode.util.FileToListUtil;
+import se.johannesdahlgren.adventofcode2019.util.FileToListUtil;
 
 public class Day2 {
 

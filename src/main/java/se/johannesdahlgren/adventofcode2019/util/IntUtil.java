@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode.util;
+package se.johannesdahlgren.adventofcode2019.util;
 
 public class IntUtil {
 

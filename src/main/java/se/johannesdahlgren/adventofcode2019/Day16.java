@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode;
+package se.johannesdahlgren.adventofcode2019;
 
 import java.util.ArrayList;
 import java.util.List;

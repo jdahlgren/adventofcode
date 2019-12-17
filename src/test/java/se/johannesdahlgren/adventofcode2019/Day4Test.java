@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode;
+package se.johannesdahlgren.adventofcode2019;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -12,8 +12,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import se.johannesdahlgren.adventofcode.matchers.AdjacentDigitsMatcher;
-import se.johannesdahlgren.adventofcode.matchers.NeverDecreasesMatcher;
+import se.johannesdahlgren.adventofcode2019.matchers.AdjacentDigitsMatcher;
+import se.johannesdahlgren.adventofcode2019.matchers.NeverDecreasesMatcher;
 
 class Day4Test {
 

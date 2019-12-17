@@ -1,6 +1,6 @@
-package se.johannesdahlgren.adventofcode.matchers;
+package se.johannesdahlgren.adventofcode2019.matchers;
 
-import static se.johannesdahlgren.adventofcode.util.IntUtil.containsAdjacentDigits;
+import static se.johannesdahlgren.adventofcode2019.util.IntUtil.containsAdjacentDigits;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;

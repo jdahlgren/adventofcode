@@ -1,10 +1,10 @@
-package se.johannesdahlgren.adventofcode;
+package se.johannesdahlgren.adventofcode2019;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import se.johannesdahlgren.adventofcode.util.IntUtil;
+import se.johannesdahlgren.adventofcode2019.util.IntUtil;
 
 @RequiredArgsConstructor
 public class Day4 {

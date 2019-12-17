@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode;
+package se.johannesdahlgren.adventofcode2019;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

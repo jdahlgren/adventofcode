@@ -1,9 +1,9 @@
-package se.johannesdahlgren.adventofcode.matchers;
+package se.johannesdahlgren.adventofcode2019.matchers;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import se.johannesdahlgren.adventofcode.util.IntUtil;
+import se.johannesdahlgren.adventofcode2019.util.IntUtil;
 
 public class NeverDecreasesMatcher extends BaseMatcher<Integer> {
 
