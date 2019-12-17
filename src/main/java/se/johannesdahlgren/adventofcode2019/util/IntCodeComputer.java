@@ -9,13 +9,16 @@ public class IntCodeComputer {
   private static final int OP_CODE_MULTIPLY = 2;
   private static final int OP_CODE_HALT = 99;
 
+  private static final int POSITION_MODE = 0;
+  private static final int IMMEDIATE_MODE = 1;
+
   private static final int NOUN_POSITION = 1;
   private static final int VERB_POSITION = 2;
 
   private final List<Integer> defaultIntCode;
   private List<Integer> currentIntCode;
+  private List<Integer> parameterMode = List.of(0, 0, 0);
   private int currentIndex;
-  private int valuesInInstruction = 4;
 
   public IntCodeComputer(String filePath) {
     defaultIntCode = List.copyOf(FileToListUtil.getIntCode(filePath));
@@ -43,7 +46,30 @@ public class IntCodeComputer {
   }
 
   private int getNextOpCode() {
-    return currentIntCode.get(currentIndex);
+    int instruction = currentIntCode.get(currentIndex);
+    setParameterMode(instruction);
+    return getOpCodeFromInstruction(instruction);
+  }
+
+  private int getOpCodeFromInstruction(int instruction) {
+    String stringInstruction = String.valueOf(instruction);
+    int instructionLength = stringInstruction.length();
+    String opCode = instructionLength == 1 ?
+        stringInstruction : stringInstruction.substring(instructionLength - 2, instructionLength);
+    return Integer.parseInt(opCode);
+  }
+
+  private void setParameterMode(int instruction) {
+    String stringInstruction = String.valueOf(instruction);
+    int instructionLength = stringInstruction.length();
+    String hundreds = instructionLength < 3 ?
+        "0" : stringInstruction.substring(instructionLength - 3, instructionLength - 2);
+    String thousands = instructionLength < 4 ?
+        "0" : stringInstruction.substring(instructionLength - 4, instructionLength - 3);
+    String tenThousands = instructionLength < 5 ?
+        "0" : stringInstruction.substring(instructionLength - 5, instructionLength - 4);
+
+    parameterMode = List.of(Integer.parseInt(hundreds), Integer.parseInt(thousands), Integer.parseInt(tenThousands));
   }
 
   private int calculateNewValue(int opCode) {
@@ -56,31 +82,34 @@ public class IntCodeComputer {
   }
 
   private int addValues() {
-    return currentIntCode.get(getFirstValuePos()) + currentIntCode.get(getSecondValuePos());
+    return currentIntCode.get(getIndexByParameterMode(1)) + currentIntCode.get(getIndexByParameterMode(2));
   }
 
   private int multiplyValues() {
-    return currentIntCode.get(getFirstValuePos()) * currentIntCode.get(getSecondValuePos());
+    return currentIntCode.get(getIndexByParameterMode(1)) * currentIntCode.get(getIndexByParameterMode(2));
   }
 
-  private int getFirstValuePos() {
-    return currentIntCode.get(currentIndex + 1);
-  }
-
-  private int getSecondValuePos() {
-    return currentIntCode.get(currentIndex + 2);
+  private int getParameterMode(int i) {
+    return parameterMode.get(i % parameterMode.size());
   }
 
   private void setNewValueInIntCode(int newValue) {
-    int index = getInsertPosition();
+    int index = getIndexByParameterMode(3);
     currentIntCode.set(index, newValue);
   }
 
-  private int getInsertPosition() {
-    return currentIntCode.get(currentIndex + 3);
+  private int getIndexByParameterMode(int indexOffset) {
+    int index = currentIndex + indexOffset;
+    int mode = getParameterMode(index);
+    if (POSITION_MODE == mode) {
+      return currentIntCode.get(index);
+    } else if (IMMEDIATE_MODE == mode) {
+      return index;
+    }
+    throw new RuntimeException("Unsupported parameter mode");
   }
 
   private void setNextOpCodeIndex() {
-    currentIndex = currentIndex + valuesInInstruction;
+    currentIndex = currentIndex + parameterMode.size() + 1;
   }
 }
