@@ -38,8 +38,7 @@ public class IntCodeComputer {
     int opCode = getNextOpCode();
 
     while (opCode != OP_CODE_HALT) {
-      int newValue = calculateNewValue(opCode);
-      setNewValueInIntCode(newValue);
+      processOpCode(opCode);
       setNextOpCodeIndex();
       opCode = getNextOpCode();
     }
@@ -53,13 +52,17 @@ public class IntCodeComputer {
     return getOpCodeFromInstruction(instruction);
   }
 
-  private int calculateNewValue(int opCode) {
+  private void processOpCode(int opCode) {
     if (OP_CODE_ADD == opCode) {
-      return addValues();
+      int newValue = addValues();
+      setNewValueInIntCode(newValue);
+      return;
     } else if (OP_CODE_MULTIPLY == opCode) {
-      return multiplyValues();
+      int newValue = multiplyValues();
+      setNewValueInIntCode(newValue);
+      return;
     }
-    throw new RuntimeException("Unsupported OP CODE");
+    throw new RuntimeException("Unsupported OP CODE: " + opCode);
   }
 
   private void setNewValueInIntCode(int newValue) {
