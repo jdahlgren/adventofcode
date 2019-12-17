@@ -7,6 +7,8 @@ public class IntCodeComputer {
 
   private static final int OP_CODE_ADD = 1;
   private static final int OP_CODE_MULTIPLY = 2;
+  private static final int OP_CODE_SET_VALUE = 3;
+  private static final int OP_CODE_VIEW_VALUE = 4;
   private static final int OP_CODE_HALT = 99;
 
   private static final int POSITION_MODE = 0;
@@ -25,6 +27,13 @@ public class IntCodeComputer {
     initMemory(defaultIntCode.get(NOUN_POSITION), defaultIntCode.get(VERB_POSITION));
   }
 
+  public void initMemory(int nounValue, int verbValue) {
+    currentIndex = 0;
+    currentIntCode = new ArrayList<>(defaultIntCode);
+    currentIntCode.set(NOUN_POSITION, nounValue);
+    currentIntCode.set(VERB_POSITION, verbValue);
+  }
+
   public List<Integer> run() {
     int opCode = getNextOpCode();
 
@@ -38,25 +47,28 @@ public class IntCodeComputer {
     return currentIntCode;
   }
 
-  public void initMemory(int nounValue, int verbValue) {
-    currentIndex = 0;
-    currentIntCode = new ArrayList<>(defaultIntCode);
-    currentIntCode.set(NOUN_POSITION, nounValue);
-    currentIntCode.set(VERB_POSITION, verbValue);
-  }
-
   private int getNextOpCode() {
     int instruction = currentIntCode.get(currentIndex);
     setParameterMode(instruction);
     return getOpCodeFromInstruction(instruction);
   }
 
-  private int getOpCodeFromInstruction(int instruction) {
-    String stringInstruction = String.valueOf(instruction);
-    int instructionLength = stringInstruction.length();
-    String opCode = instructionLength == 1 ?
-        stringInstruction : stringInstruction.substring(instructionLength - 2, instructionLength);
-    return Integer.parseInt(opCode);
+  private int calculateNewValue(int opCode) {
+    if (OP_CODE_ADD == opCode) {
+      return addValues();
+    } else if (OP_CODE_MULTIPLY == opCode) {
+      return multiplyValues();
+    }
+    throw new RuntimeException("Unsupported OP CODE");
+  }
+
+  private void setNewValueInIntCode(int newValue) {
+    int index = getIndexByParameterMode(3);
+    currentIntCode.set(index, newValue);
+  }
+
+  private void setNextOpCodeIndex() {
+    currentIndex = currentIndex + parameterMode.size() + 1;
   }
 
   private void setParameterMode(int instruction) {
@@ -72,13 +84,12 @@ public class IntCodeComputer {
     parameterMode = List.of(Integer.parseInt(hundreds), Integer.parseInt(thousands), Integer.parseInt(tenThousands));
   }
 
-  private int calculateNewValue(int opCode) {
-    if (OP_CODE_ADD == opCode) {
-      return addValues();
-    } else if (OP_CODE_MULTIPLY == opCode) {
-      return multiplyValues();
-    }
-    return -1;
+  private int getOpCodeFromInstruction(int instruction) {
+    String stringInstruction = String.valueOf(instruction);
+    int instructionLength = stringInstruction.length();
+    String opCode = instructionLength == 1 ?
+        stringInstruction : stringInstruction.substring(instructionLength - 2, instructionLength);
+    return Integer.parseInt(opCode);
   }
 
   private int addValues() {
@@ -87,15 +98,6 @@ public class IntCodeComputer {
 
   private int multiplyValues() {
     return currentIntCode.get(getIndexByParameterMode(1)) * currentIntCode.get(getIndexByParameterMode(2));
-  }
-
-  private int getParameterMode(int i) {
-    return parameterMode.get(i % parameterMode.size());
-  }
-
-  private void setNewValueInIntCode(int newValue) {
-    int index = getIndexByParameterMode(3);
-    currentIntCode.set(index, newValue);
   }
 
   private int getIndexByParameterMode(int indexOffset) {
@@ -109,7 +111,7 @@ public class IntCodeComputer {
     throw new RuntimeException("Unsupported parameter mode");
   }
 
-  private void setNextOpCodeIndex() {
-    currentIndex = currentIndex + parameterMode.size() + 1;
+  private int getParameterMode(int i) {
+    return parameterMode.get(i % parameterMode.size());
   }
 }
