@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode.y2019.matchers;
+package se.johannesdahlgren.adventofcode.matchers;
 
 import static se.johannesdahlgren.adventofcode.util.IntUtil.containsAdjacentDigits;
 

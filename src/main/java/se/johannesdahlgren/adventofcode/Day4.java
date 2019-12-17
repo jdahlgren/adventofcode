@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode.y2019;
+package se.johannesdahlgren.adventofcode;
 
 import java.util.List;
 import java.util.stream.Collectors;

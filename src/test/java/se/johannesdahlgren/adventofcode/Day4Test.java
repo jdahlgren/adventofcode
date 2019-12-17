@@ -1,4 +1,4 @@
-package se.johannesdahlgren.adventofcode.y2019;
+package se.johannesdahlgren.adventofcode;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -6,12 +6,14 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
-import static se.johannesdahlgren.adventofcode.y2019.matchers.AdjacentDigitsMatcher.containsAtLeastTwoAdjacentDigits;
-import static se.johannesdahlgren.adventofcode.y2019.matchers.NeverDecreasesMatcher.digitsNeverDecreases;
 
 import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.johannesdahlgren.adventofcode.matchers.AdjacentDigitsMatcher;
+import se.johannesdahlgren.adventofcode.matchers.NeverDecreasesMatcher;
 
 class Day4Test {
 
@@ -63,7 +65,7 @@ class Day4Test {
   void atLeastTwoAdjacentDigits() {
     List<Integer> passwords = day4.getPasswords();
     for (Integer password : passwords) {
-      assertThat(password, containsAtLeastTwoAdjacentDigits());
+      MatcherAssert.assertThat(password, AdjacentDigitsMatcher.containsAtLeastTwoAdjacentDigits());
     }
   }
 
@@ -71,7 +73,7 @@ class Day4Test {
   void neverDecreases() {
     List<Integer> passwords = day4.getPasswords();
     for (Integer password : passwords) {
-      assertThat(password, digitsNeverDecreases());
+      MatcherAssert.assertThat(password, NeverDecreasesMatcher.digitsNeverDecreases());
     }
   }
 
@@ -84,22 +86,23 @@ class Day4Test {
   @Test
   void example1() {
     int password = 111111;
-    assertThat(password, containsAtLeastTwoAdjacentDigits());
-    assertThat(password, digitsNeverDecreases());
+    MatcherAssert.assertThat(password, AdjacentDigitsMatcher.containsAtLeastTwoAdjacentDigits());
+    MatcherAssert.assertThat(password, NeverDecreasesMatcher.digitsNeverDecreases());
   }
 
   @Test
   void example2() {
     int password = 223450;
-    assertThat(password, containsAtLeastTwoAdjacentDigits());
-    assertThat(password, is(not(digitsNeverDecreases())));
+    MatcherAssert.assertThat(password, AdjacentDigitsMatcher.containsAtLeastTwoAdjacentDigits());
+    MatcherAssert.assertThat(password, Matchers.is(Matchers.not(NeverDecreasesMatcher.digitsNeverDecreases())));
   }
 
   @Test
   void example3() {
     int password = 123789;
-    assertThat(password, is(not(containsAtLeastTwoAdjacentDigits())));
-    assertThat(password, digitsNeverDecreases());
+    MatcherAssert
+        .assertThat(password, Matchers.is(Matchers.not(AdjacentDigitsMatcher.containsAtLeastTwoAdjacentDigits())));
+    MatcherAssert.assertThat(password, NeverDecreasesMatcher.digitsNeverDecreases());
   }
 
 }
