@@ -30,6 +30,22 @@ public class Day16 {
     return flawedFrequencyTransmission(output.toString(), phases - 1);
   }
 
+  public String flawedFrequencyTransmission(String input, int phases, int offset) {
+    if (phases == 0) {
+      return input.substring(offset, offset + 8);
+    }
+    List<Integer> inputList = input.chars().boxed().map(Character::getNumericValue).collect(Collectors.toList());
+
+    var result = 0;
+    for (int inputIndex = inputList.size() - 1; inputIndex > offset - 1; inputIndex--) {
+      result += inputList.get(inputIndex);
+      result = Math.abs(result % 10);
+      inputList.set(inputIndex, result);
+    }
+    String output = inputList.stream().map(String::valueOf).collect(Collectors.joining(""));
+    return flawedFrequencyTransmission(output, phases - 1, offset);
+  }
+
   private List<Integer> getPatternForOutputIndex(int outputIndex) {
     int repeats = outputIndex + 1;
     List<Integer> pattern = new ArrayList<>();
