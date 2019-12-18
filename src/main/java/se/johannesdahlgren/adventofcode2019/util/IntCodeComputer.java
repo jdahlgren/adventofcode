@@ -2,7 +2,9 @@ package se.johannesdahlgren.adventofcode2019.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class IntCodeComputer {
 
   private static final int OP_CODE_ADD = 1;
@@ -19,7 +21,6 @@ public class IntCodeComputer {
 
   private final List<Integer> defaultIntCode;
   private List<Integer> currentIntCode;
-  private List<Integer> parameterMode = List.of(0, 0, 0);
   private int currentIndex;
 
   public IntCodeComputer(String filePath) {
@@ -35,86 +36,78 @@ public class IntCodeComputer {
   }
 
   public List<Integer> run() {
-    int opCode = getNextOpCode();
+    String opCodeInstruction = getNextOpCodeInstruction();
+    int opCode = getOpCode(opCodeInstruction);
 
     while (opCode != OP_CODE_HALT) {
-      processOpCode(opCode);
-      setNextOpCodeIndex();
-      opCode = getNextOpCode();
+      processOpCode(opCode, opCodeInstruction);
+      opCodeInstruction = getNextOpCodeInstruction();
+      opCode = getOpCode(opCodeInstruction);
     }
 
     return currentIntCode;
   }
 
-  private int getNextOpCode() {
+  private String getNextOpCodeInstruction() {
     int instruction = currentIntCode.get(currentIndex);
-    setParameterMode(instruction);
-    return getOpCodeFromInstruction(instruction);
+    return getPaddedInstruction(instruction);
   }
 
-  private void processOpCode(int opCode) {
+  private int getOpCode(String opCodeInstruction) {
+    return Integer.parseInt(opCodeInstruction.substring(3, 5));
+  }
+
+  private void processOpCode(int opCode, String opCodeInstruction) {
     if (OP_CODE_ADD == opCode) {
-      int newValue = addValues();
-      setNewValueInIntCode(newValue);
+      int newValue = addValues(opCodeInstruction);
+      setNewValueInIntCode(newValue, opCodeInstruction);
+      currentIndex += 4;
       return;
     } else if (OP_CODE_MULTIPLY == opCode) {
-      int newValue = multiplyValues();
-      setNewValueInIntCode(newValue);
+      int newValue = multiplyValues(opCodeInstruction);
+      setNewValueInIntCode(newValue, opCodeInstruction);
+      currentIndex += 4;
       return;
     }
     throw new RuntimeException("Unsupported OP CODE: " + opCode);
   }
 
-  private void setNewValueInIntCode(int newValue) {
-    int index = getIndexByParameterMode(3);
+  private void setNewValueInIntCode(int newValue, String opCodeInstruction) {
+    int index = getIndexByParameterMode(3, opCodeInstruction);
     currentIntCode.set(index, newValue);
+    log.info("Saved {} on pos {}", newValue, index);
   }
 
-  private void setNextOpCodeIndex() {
-    currentIndex = currentIndex + parameterMode.size() + 1;
+  private String getPaddedInstruction(int instruction) {
+    return String.format("%05d", instruction);
   }
 
-  private void setParameterMode(int instruction) {
-    String stringInstruction = String.valueOf(instruction);
-    int instructionLength = stringInstruction.length();
-    String hundreds = instructionLength < 3 ?
-        "0" : stringInstruction.substring(instructionLength - 3, instructionLength - 2);
-    String thousands = instructionLength < 4 ?
-        "0" : stringInstruction.substring(instructionLength - 4, instructionLength - 3);
-    String tenThousands = instructionLength < 5 ?
-        "0" : stringInstruction.substring(instructionLength - 5, instructionLength - 4);
-
-    parameterMode = List.of(Integer.parseInt(hundreds), Integer.parseInt(thousands), Integer.parseInt(tenThousands));
+  private int addValues(String opCodeInstruction) {
+    int param1 = getIndexByParameterMode(1, opCodeInstruction);
+    int param2 = getIndexByParameterMode(2, opCodeInstruction);
+    Integer v1 = currentIntCode.get(param1);
+    Integer v2 = currentIntCode.get(param2);
+    log.info("Adding {} + {} from positions {}, {}", v1, v2, param1, param2);
+    return v1 + v2;
   }
 
-  private int getOpCodeFromInstruction(int instruction) {
-    String stringInstruction = String.valueOf(instruction);
-    int instructionLength = stringInstruction.length();
-    String opCode = instructionLength == 1 ?
-        stringInstruction : stringInstruction.substring(instructionLength - 2, instructionLength);
-    return Integer.parseInt(opCode);
+  private int multiplyValues(String opCodeInstruction) {
+    int param1 = getIndexByParameterMode(1, opCodeInstruction);
+    int param2 = getIndexByParameterMode(2, opCodeInstruction);
+    Integer v1 = currentIntCode.get(param1);
+    Integer v2 = currentIntCode.get(param2);
+    log.info("Multiplying {} * {} from positions {}, {}", v1, v2, param1, param2);
+    return v1 * v2;
   }
 
-  private int addValues() {
-    return currentIntCode.get(getIndexByParameterMode(1)) + currentIntCode.get(getIndexByParameterMode(2));
-  }
-
-  private int multiplyValues() {
-    return currentIntCode.get(getIndexByParameterMode(1)) * currentIntCode.get(getIndexByParameterMode(2));
-  }
-
-  private int getIndexByParameterMode(int indexOffset) {
+  private int getIndexByParameterMode(int indexOffset, String opCodeInstruction) {
     int index = currentIndex + indexOffset;
-    int mode = getParameterMode(index);
+    int mode = Character.getNumericValue(opCodeInstruction.charAt(3 - indexOffset));
     if (POSITION_MODE == mode) {
       return currentIntCode.get(index);
     } else if (IMMEDIATE_MODE == mode) {
       return index;
     }
     throw new RuntimeException("Unsupported parameter mode");
-  }
-
-  private int getParameterMode(int i) {
-    return parameterMode.get(i % parameterMode.size());
   }
 }
