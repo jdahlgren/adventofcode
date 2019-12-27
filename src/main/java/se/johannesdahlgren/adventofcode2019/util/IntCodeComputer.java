@@ -22,8 +22,15 @@ public class IntCodeComputer {
   private final List<Integer> defaultIntCode;
   private List<Integer> currentIntCode;
   private int currentIndex;
+  private int input;
+  private int output;
 
   public IntCodeComputer(String filePath) {
+    this(filePath, -1);
+  }
+
+  public IntCodeComputer(String filePath, int input) {
+    this.input = input;
     defaultIntCode = List.copyOf(FileToListUtil.getIntCode(filePath));
     initMemory(defaultIntCode.get(NOUN_POSITION), defaultIntCode.get(VERB_POSITION));
   }
@@ -48,6 +55,10 @@ public class IntCodeComputer {
     return currentIntCode;
   }
 
+  public int getOutput() {
+    return output;
+  }
+
   private String getNextOpCodeInstruction() {
     int instruction = currentIntCode.get(currentIndex);
     return getPaddedInstruction(instruction);
@@ -67,6 +78,18 @@ public class IntCodeComputer {
       int newValue = multiplyValues(opCodeInstruction);
       setNewValueInIntCode(newValue, opCodeInstruction);
       currentIndex += 4;
+      return;
+    } else if (OP_CODE_SET_VALUE == opCode) {
+      int index = getIndexByParameterMode(1, opCodeInstruction);
+      currentIntCode.set(index, input);
+      log.info("Saved {} on pos {}", input, index);
+      currentIndex += 2;
+      return;
+    } else if (OP_CODE_VIEW_VALUE == opCode) {
+      int index = getIndexByParameterMode(1, opCodeInstruction);
+      output = currentIntCode.get(index);
+      log.info("Output is {}", output);
+      currentIndex += 2;
       return;
     }
     throw new RuntimeException("Unsupported OP CODE: " + opCode);
