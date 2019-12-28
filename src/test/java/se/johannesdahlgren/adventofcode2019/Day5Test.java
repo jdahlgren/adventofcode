@@ -10,7 +10,7 @@ class Day5Test {
   private Day5 day5;
 
   @Test
-  void runDiagnosticCode() {
+  void part1() {
     day5 = new Day5("day5/day5.txt", 1);
     int integers = day5.runDiagnosticCode();
     assertThat(integers, is(10987514));
@@ -142,6 +142,14 @@ class Day5Test {
     day5 = new Day5("day5/day5_example8.txt", input);
     int integers = day5.runDiagnosticCode();
     assertThat(integers, is(1001));
+  }
+
+  @Test
+  void part2() {
+    int input = 5;
+    day5 = new Day5("day5/day5.txt", input);
+    int integers = day5.runDiagnosticCode();
+    assertThat(integers, is(14195011));
   }
 
 }
