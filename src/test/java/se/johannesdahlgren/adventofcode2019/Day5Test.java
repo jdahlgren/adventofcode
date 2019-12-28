@@ -122,7 +122,7 @@ class Day5Test {
 
   @Test
   void runDiagnosticCodeExample8LTEight() {
-    int input = 9;
+    int input = 7;
     day5 = new Day5("day5/day5_example8.txt", input);
     int integers = day5.runDiagnosticCode();
     assertThat(integers, is(999));

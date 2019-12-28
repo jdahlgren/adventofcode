@@ -113,6 +113,26 @@ public class IntCodeComputer {
         currentIndex += 3;
       }
       return;
+    } else if (OP_CODE_LESS_THAN == opCode) {
+      int param1 = getIndexByParameterMode(1, opCodeInstruction);
+      int param2 = getIndexByParameterMode(2, opCodeInstruction);
+      if (currentIntCode.get(param1) < currentIntCode.get(param2)) {
+        setNewValueInIntCode(1, opCodeInstruction);
+      } else {
+        setNewValueInIntCode(0, opCodeInstruction);
+      }
+      currentIndex += 4;
+      return;
+    } else if (OP_CODE_EQUALS == opCode) {
+      int param1 = getIndexByParameterMode(1, opCodeInstruction);
+      int param2 = getIndexByParameterMode(2, opCodeInstruction);
+      if (currentIntCode.get(param1).equals(currentIntCode.get(param2))) {
+        setNewValueInIntCode(1, opCodeInstruction);
+      } else {
+        setNewValueInIntCode(0, opCodeInstruction);
+      }
+      currentIndex += 4;
+      return;
     }
     throw new RuntimeException("Unsupported OP CODE: " + opCode);
   }
