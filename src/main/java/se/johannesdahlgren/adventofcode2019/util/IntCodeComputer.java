@@ -29,13 +29,13 @@ public class IntCodeComputer {
   private int input;
   private int output;
 
-  public IntCodeComputer(String filePath) {
-    this(filePath, -1);
+  public IntCodeComputer(List<Integer> intCode) {
+    this(intCode, -1);
   }
 
-  public IntCodeComputer(String filePath, int input) {
+  public IntCodeComputer(List<Integer> intCode, int input) {
     this.input = input;
-    defaultIntCode = List.copyOf(FileToListUtil.getIntCode(filePath));
+    defaultIntCode = List.copyOf(intCode);
     initMemory(defaultIntCode.get(NOUN_POSITION), defaultIntCode.get(VERB_POSITION));
   }
 

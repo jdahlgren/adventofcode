@@ -1,6 +1,7 @@
 package se.johannesdahlgren.adventofcode2019;
 
 import java.util.List;
+import se.johannesdahlgren.adventofcode2019.util.FileToListUtil;
 import se.johannesdahlgren.adventofcode2019.util.IntCodeComputer;
 
 public class Day2 {
@@ -8,7 +9,7 @@ public class Day2 {
   private final IntCodeComputer intCodeComputer;
 
   public Day2(String filePath) {
-    intCodeComputer = new IntCodeComputer(filePath);
+    intCodeComputer = new IntCodeComputer(FileToListUtil.getIntCode(filePath));
   }
 
   public List<Integer> calculateIntCode() {
