@@ -11,6 +11,10 @@ public class IntCodeComputer {
   private static final int OP_CODE_MULTIPLY = 2;
   private static final int OP_CODE_SET_VALUE = 3;
   private static final int OP_CODE_VIEW_VALUE = 4;
+  private static final int OP_CODE_JUMP_IF_TRUE = 5;
+  private static final int OP_CODE_JUMP_IF_FALSE = 6;
+  private static final int OP_CODE_LESS_THAN = 7;
+  private static final int OP_CODE_EQUALS = 8;
   private static final int OP_CODE_HALT = 99;
 
   private static final int POSITION_MODE = 0;
@@ -90,6 +94,24 @@ public class IntCodeComputer {
       output = currentIntCode.get(index);
       log.info("Output is {}", output);
       currentIndex += 2;
+      return;
+    } else if (OP_CODE_JUMP_IF_TRUE == opCode) {
+      int index = getIndexByParameterMode(1, opCodeInstruction);
+      if (currentIntCode.get(index) != 0) {
+        currentIndex = currentIntCode.get(getIndexByParameterMode(2, opCodeInstruction));
+        log.info("Jumping to index {}", currentIndex);
+      } else {
+        currentIndex += 3;
+      }
+      return;
+    } else if (OP_CODE_JUMP_IF_FALSE == opCode) {
+      int index = getIndexByParameterMode(1, opCodeInstruction);
+      if (currentIntCode.get(index) == 0) {
+        currentIndex = currentIntCode.get(getIndexByParameterMode(2, opCodeInstruction));
+        log.info("Jumping to index {}", currentIndex);
+      } else {
+        currentIndex += 3;
+      }
       return;
     }
     throw new RuntimeException("Unsupported OP CODE: " + opCode);
