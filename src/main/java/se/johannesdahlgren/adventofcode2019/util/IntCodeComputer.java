@@ -1,6 +1,7 @@
 package se.johannesdahlgren.adventofcode2019.util;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,15 +27,15 @@ public class IntCodeComputer {
   private final List<Integer> defaultIntCode;
   private List<Integer> currentIntCode;
   private int currentIndex;
-  private int input;
+  private LinkedList<Integer> inputList;
   private int output;
 
   public IntCodeComputer(List<Integer> intCode) {
-    this(intCode, -1);
+    this(intCode, List.of());
   }
 
-  public IntCodeComputer(List<Integer> intCode, int input) {
-    this.input = input;
+  public IntCodeComputer(List<Integer> intCode, List<Integer> input) {
+    this.inputList = new LinkedList<>(input);
     defaultIntCode = List.copyOf(intCode);
     initMemory(defaultIntCode.get(NOUN_POSITION), defaultIntCode.get(VERB_POSITION));
   }
@@ -85,6 +86,7 @@ public class IntCodeComputer {
       return;
     } else if (OP_CODE_SET_VALUE == opCode) {
       int index = getIndexByParameterMode(1, opCodeInstruction);
+      Integer input = inputList.poll();
       currentIntCode.set(index, input);
       log.info("Saved {} on pos {}", input, index);
       currentIndex += 2;
